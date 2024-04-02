@@ -18,4 +18,5 @@ from django.urls import path, re_path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #path('admin/dbapp/', admin.site.empty_value_display)
 ]

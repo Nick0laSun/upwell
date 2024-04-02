@@ -77,15 +77,18 @@ class LocationTableAdmin(admin.ModelAdmin):
         'welling_table'
     )
 
+    list_filter = (
+        'reservoir',
+        'measurment_place'
+    )
+
     # fieldsets ????
 
     fields = [
         'reservoir',
         'measurment_place',
-        'coordinate_y',
-        'latitude',
-        'coordinate_x',
-        'longitude',
+        ('coordinate_y', 'latitude'),
+        ('coordinate_x', 'longitude'),
         'welling_table'
     ]
 
@@ -163,6 +166,10 @@ class WellingTableAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'type_welling'
+    )
+
+    list_filter = (
+        'type_welling',
     )
 
     fields = [
