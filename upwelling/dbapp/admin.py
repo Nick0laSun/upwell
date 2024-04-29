@@ -1,4 +1,7 @@
 from django.contrib import admin
+from django.conf import settings
+from django.utils.html import format_html
+from django.utils.dateformat import format
 from .models import WellingTable, DateTable, SpatialTable, \
     SourceTable, TerritorialTable, LocationTable, \
     PhysicTable, SpatialCrossTable
@@ -161,11 +164,25 @@ class PhysicTableInline(admin.TabularInline):
 class SpatialCrossTableInline(admin.TabularInline):
     model = SpatialCrossTable
 
+#class StartDateListFilter(admin.SimpleListFilter):
+#    title = "Start date"
+#
+#    parameter_name = "start_date"
+#
+#    def lookups(self, request, model_admin):
+
+
 @admin.register(WellingTable)
 class WellingTableAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'type_welling'
+        'type_welling',
+        'show_date',
+        'show_spatial',
+        'show_source',
+        'show_location',
+        'show_physic',
+        'show_spatial_cross',
     )
 
     list_filter = (
@@ -174,6 +191,10 @@ class WellingTableAdmin(admin.ModelAdmin):
 
     fields = [
         'type_welling'
+    ]
+
+    search_fields = [
+        'id',
     ]
 
     inlines = [
@@ -185,6 +206,124 @@ class WellingTableAdmin(admin.ModelAdmin):
         PhysicTableInline,
         SpatialCrossTableInline
     ]
+
+    def show_date(self, obj):
+        result = DateTable.objects.filter(welling_table=obj)[0]
+
+        template = 'Начало замеров: <b>{0}</b><br> \
+                Конец замеров: <b>{1}</b><br> \
+                Продолжительность: <b>{2}</b> д.'
+
+        return format_html(
+                template,
+                str(format(result.start_date, settings.DATE_FORMAT)),
+                str(format(result.end_date, settings.DATE_FORMAT)),
+                str(result.duration)
+            )
+    show_date.short_description = 'Date'
+
+    def show_spatial(self, obj):
+        result = SpatialTable.objects.filter(welling_table=obj)
+
+        if not result:
+            return '-'
+
+        result = result[0]
+
+        template = 'Протяженность полосы <b>{0}</b> км<br>\
+                Средняя глубина моря <b>{1}</b> м<br>\
+                Толщина слоя <b>{2}</b> м'
+        
+        return format_html(
+                template,
+                str(result.strip_length),
+                str(result.avg_sea_depth),
+                str(result.layer_thickness)
+            )
+    show_spatial.short_description = 'Spatial'
+
+    def show_source(self, obj):
+        result = SourceTable.objects.filter(welling_table=obj)[0]
+
+        template = '<a href="{0}">{1}</a>'
+
+        return format_html(
+                template,
+                result.source_url,
+                result.source_title
+            )
+    show_source.short_description = 'Source'
+
+    def show_location(self, obj):
+        result_location = LocationTable.objects.filter(welling_table=obj)[0]
+        result_territory = TerritorialTable.objects.filter(welling_table=obj)[0]
+
+        template = 'Страна: <b>{0}</b><br>\
+            Водоем: <b>{1}</b><br>\
+            Территория: <b>{2}</b><br>\
+            Координаты: <b>{3} {4}  {5} {6}</b>'
+
+        return format_html(
+                template,
+                result_territory.territorial_waters,
+                result_location.reservoir,
+                result_location.measurment_place,
+                str(result_location.coordinate_x),
+                result_location.longitude,
+                str(result_location.coordinate_y),
+                result_location.latitude
+            )
+    show_location.short_description = 'Location'
+
+    def show_physic(self, obj):
+        result = PhysicTable.objects.filter(welling_table=obj)[0]
+
+        template = 'Разница темеператур: <b>{0}</b> °С<br>\
+            Макс. перепад темп. между глуб. и пов. водами: <b>{1}</b> °С<br>\
+            Скорость течения: <b>{2}</b> м/с<br>\
+            Разность плотностей морской воды: <b>{3}</b> епс<br>\
+            Соленость: <b>{4}</b> psu<br>\
+            Мин. значение темп. пов. воды: <b>{5}</b> °С<br>\
+            Макс. перепад темп. пов. воды между зоной явления и смеж. водами: <b>{6}</b> °С<br>\
+            Скорость ветра: <b>{7}</b> м/с<br>\
+            Вертикальная скорость: <b>{8}</b> м/с<br>\
+            Темп. вод. массы за пределами апвеллинга Tmax: <b>{9}</b> °С'
+        
+        return format_html(
+            template,
+            str(result.temperature_diff),
+            str(result.temperature_diff_max),
+            str(result.flow_speed),
+            str(result.seawater_dens_diff),
+            str(result.salinity),
+            str(result.sea_surf_temp_min),
+            str(result.sea_surf_temp_max_diff),
+            str(result.wind_speed),
+            str(result.vertical_speed),
+            str(result.water_temp_max_out)
+        )
+    show_physic.short_description = 'Physic'
+
+    def show_spatial_cross(self, obj):
+        result = SpatialCrossTable.objects.filter(welling_table=obj)
+
+        if not result:
+            return '-'
+        
+        result = result[0]
+
+        template = 'Ширина на поверхности: <b>{0}</b> км<br>\
+            Ширина у дна: <b>{1}</b> км<br>\
+            Расстояние от берега: <b>{2}</b> км'
+        
+        return format_html(
+            template,
+            str(result.width_on_surface),
+            str(result.width_on_bottom),
+            str(result.distance_from_shore)
+        )
+    show_spatial_cross.short_description = 'Cpatial cross'
+
 
 # Register your models here.
     
