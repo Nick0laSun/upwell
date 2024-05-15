@@ -1,0 +1,28 @@
+{% extends "base_template.html" %}
+
+{% block title %}<title>Source list</title>{% endblock %}
+
+
+{% block content %}
+    <h1>Source list</h1>
+
+    <form action="search/" method="GET">
+        {{ form }}
+        <input type="submit" value="Search">
+    </form>
+    
+
+    {% if source_list %}
+    <ul>
+        {% for source in source_list %}
+        <li>
+            <a href="{% url 'detailed_view' source.welling_table.id %}">Upwelling ({{ source.welling_table.id }})</a>
+            <a href="{{ source.source_url }}">{{ source.source_title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No data</p>
+    {% endif %}
+
+{% endblock %}

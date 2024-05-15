@@ -1,0 +1,19 @@
+{% extends "base_template.html" %}
+
+{% block title %}<title>Data stat</title>{% endblock %}
+
+
+{% block content %}
+    <h1>Data stat</h1>
+
+    <form action="plot_stat/" method="GET">
+        <button type="submit" name="year_stat">Year stat</button>
+        <button type="submit" name="season_stat">Season stat</button>
+        <button type="submit" name="month_stat">Month stat</button>
+    </form>
+    
+
+    {{ data }} <br> 
+    {{ debug }}
+
+{% endblock %}

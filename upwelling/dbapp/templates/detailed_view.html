@@ -1,0 +1,33 @@
+{% extends "base_template.html" %}
+
+{% block title %}<title>Detailed view</title>{% endblock %}
+
+
+{% block content %}
+    <a href="{% url 'sources' %}">To the list</a>
+    <h1>Detailed view</h1>
+
+    <p>
+        <b>Id: </b>{{ welling.id }}<br>
+        <b>Type: </b>{{ welling.type_welling }}
+    </p><br>
+    <p>
+        <b>Start date: </b>{{ date.start_date }}
+        <b>End date: </b>{{ date.end_date }}
+        <b>Duration: </b>{{ date.duration }}
+    </p><br>
+    <p>
+        <b>Strip lenght: </b>{{ spatial.strip_lenght }}<br>
+        <b>Avg. sea length: </b>{{ spatial.avg_sea_depth }}<br>
+        <b>Layer thickness: </b>{{ spatial.layer_thikness }}
+    </p>
+    <p>
+        <b>Source: </b><a href="{{ source.source_url }}">{{ source.source_title }}</a>
+    </p>
+    <p>
+        <b>Counrty: </b>{{ territory.territorial_waters}}
+    </p>
+    <p>
+
+    </p>
+{% endblock %}
