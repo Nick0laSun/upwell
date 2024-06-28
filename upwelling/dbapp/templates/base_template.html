@@ -5,31 +5,37 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+
+    <!-- style -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    
+
+    <!-- scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <script src="https://api-maps.yandex.ru/2.1/?apikey=08bbb439-3bb4-4624-9139-732963ddac86&lang=ru_RU" type="text/javascript"></script>
     <script src="{% static 'script/yamap.js' %}" type="text/javascript"></script>
     {% block head %}{% endblock %}
 </head>
 
 <body>
+    {% csrf_token %}
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-2">
+                <h1>Разделы сайта</h1>
                 {% block sidebar %}
                     <ul class="sidebar-nav">
-                        <li><a href="{% url 'index' %}">Теоретическая справка</a><br><br></li>
-                        <li><a href="{% url 'map' %}">Карта</a><br><br></li>
-                        <li><a href="{% url 'map' %}">Распределение по акваториям</a><br><br></li>
-                        <li><a href="{% url 'data_stat' %}">Распределение по годам obweifbksbkjbf</a><br><br></li>
-                        <li><a href="{% url 'map' %}">Распределение по сезонам</a><br><br></li>
-                        <li><a href="{% url 'sources' %}">Поиск по авторам</a><br><br></li>
+                        <li><a href="{% url 'index' %}">Теоретическая справка</a></li>
+                        <li><a href="{% url 'map' %}">Карта</a></li>
+                        <li><a href="{% url 'map' %}">Распределение по акваториям</a></li>
+                        <li><a href="{% url 'data_stat' %}">Распределение по годам</a></li>
+                        <li><a href="{% url 'map' %}">Распределение по сезонам</a></li>
+                        <li><a href="{% url 'sources' %}">Поиск по авторам</a></li>
                     </ul>
                 {% endblock %}
             </div>

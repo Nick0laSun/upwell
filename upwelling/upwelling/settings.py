@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'dbapp',
-    'rest_framework',
+    # 'rest_framework',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +127,8 @@ DATE_FORMAT = 'd E Y'
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}

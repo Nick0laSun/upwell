@@ -3,3 +3,16 @@
     padding: 0;
     list-style: none;
 }
+
+.sidebar-nav li{
+    font-size:28px;
+}
+
+.map {
+    height: 500px;
+    width: 1500px;
+}
+
+.source-li li{
+    font-size: 28px;
+}

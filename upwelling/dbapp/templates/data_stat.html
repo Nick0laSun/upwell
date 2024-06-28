@@ -1,19 +1,28 @@
 {% extends "base_template.html" %}
 
-{% block title %}<title>Data stat</title>{% endblock %}
+{% block title %}<title>Статистика по годам</title>{% endblock %}
 
 
 {% block content %}
-    <h1>Data stat</h1>
+    <h1>Статистика по годам</h1>
 
-    <form action="plot_stat/" method="GET">
-        <button type="submit" name="year_stat">Year stat</button>
-        <button type="submit" name="season_stat">Season stat</button>
-        <button type="submit" name="month_stat">Month stat</button>
+    <form action="plot/" method="GET">
+        <button type="submit" name="stat" value="year">Статистика по годам</button>
+        <button type="submit" name="stat" value="season">Статистика по сезонам</button>
+        <button type="submit" name="stat" value="month">Статистика по месяцам</button>
     </form>
-    
 
-    {{ data }} <br> 
-    {{ debug }}
+    <!-- <form action="plot/" method="GET">
+        {{ form }}
+        <input type="submit" value="Поиск">
+    </form> -->
+    <br>
+    <div class="grapthic-stat">
+        {% if graphic %}
+            <img src="data:image/png;base64,{{ graphic }}" alt="Data bars">
+        {% else %}
+            {{ message }} 
+        {% endif %}
+    </div>
 
 {% endblock %}

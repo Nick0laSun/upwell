@@ -4,19 +4,19 @@
 
 
 {% block content %}
-    <h1>Source list</h1>
+    <h1>Список источников</h1>
 
     <form action="search/" method="GET">
         {{ form }}
-        <input type="submit" value="Search">
+        <input type="submit" value="Поиск">
     </form>
     
 
     {% if source_list %}
-    <ul>
+    <ul  class="source-li">
         {% for source in source_list %}
         <li>
-            <a href="{% url 'detailed_view' source.welling_table.id %}">Upwelling ({{ source.welling_table.id }})</a>
+            <!-- <a href="{% url 'detailed_view' source.welling_table.id %}">Запись ({{ source.welling_table.id }})</a> -->
             <a href="{{ source.source_url }}">{{ source.source_title }}</a>
         </li>
         {% endfor %}
